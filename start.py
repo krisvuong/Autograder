@@ -26,6 +26,12 @@ with open("config.yaml", "r") as file:
     except yaml.YAMLError as e:
         print(f"Error parsing config.yaml: {e}")
 
+with open("secrets.yaml", "r") as file:
+    try:
+        secrets = yaml.safe_load(file)
+    except yaml.YAMLError as e:
+        print(f"Error parsing secrets.yaml: {e}")
+
 ASSIGNMENT_NUM = config["assignment_num"]
 SUBMISSION_FOLDER = f"submissions/a{ASSIGNMENT_NUM}"
 TEST_FILE = f"tests/TestA{ASSIGNMENT_NUM}.py"
@@ -36,7 +42,7 @@ ERROR_FOLDER = f"output/{OUTPUT_FOLDER}_autograde_errors"
 LOW_MARK_FOLDER = f"output/{OUTPUT_FOLDER}_low_marks"
 
 SENDER_EMAIL = config["email"]["address"]
-SENDER_APP_PWD = config["email"]["app_password"]
+SENDER_APP_PWD = secrets["email"]["app_password"]
 
 def load_mapping(path="mapping.csv"):
     print(f"Reading mapping csv from {path}...")

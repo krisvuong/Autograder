@@ -3,4 +3,3 @@ email:
   host: 'smtp.gmail.com'
   port: 465
   address: 'xxx@gmail.com'
-  app_password: 'xxx'
