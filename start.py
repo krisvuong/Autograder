@@ -32,6 +32,11 @@ with open("secrets.yaml", "r") as file:
     except yaml.YAMLError as e:
         print(f"Error parsing secrets.yaml: {e}")
 
+SENDER_EMAIL_ADDRESS = config["email"]["address"]
+SENDER_EMAIL_PORT = config["email"]["port"]
+SENDER_EMAIL_HOST = config["email"]["host"]
+SENDER_EMAIL_APP_PWD = secrets["email"]["app_password"]
+
 ASSIGNMENT_NUM = config["assignment_num"]
 SUBMISSION_FOLDER = f"submissions/a{ASSIGNMENT_NUM}"
 TEST_FILE = f"tests/TestA{ASSIGNMENT_NUM}.py"
@@ -41,8 +46,6 @@ OUTPUT_FOLDER = f"a{ASSIGNMENT_NUM}"
 ERROR_FOLDER = f"output/{OUTPUT_FOLDER}_autograde_errors"
 LOW_MARK_FOLDER = f"output/{OUTPUT_FOLDER}_low_marks"
 
-SENDER_EMAIL = config["email"]["address"]
-SENDER_APP_PWD = secrets["email"]["app_password"]
 
 def load_mapping(path="mapping.csv"):
     print(f"Reading mapping csv from {path}...")
@@ -158,13 +161,13 @@ def send_email(name, recipient_email, attachment_path, server):
     )
     message = MIMEMultipart()
     message['Subject'] = subject
-    message['From'] = SENDER_EMAIL
+    message['From'] = SENDER_EMAIL_ADDRESS
     message['To'] = recipient_email
     html_part = MIMEText(body)
     message.attach(html_part)
     message.attach(part)
 
-    server.sendmail(SENDER_EMAIL, recipient_email, message.as_string())
+    server.sendmail(SENDER_EMAIL_ADDRESS, recipient_email, message.as_string())
 
     print("Message sent!")
 
@@ -180,8 +183,8 @@ def try_send_email(filepaths):
 
     # extract name and email from pdf name
     print(f"Found {len(filepaths)} feedback pdfs to send...")
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-        server.login(SENDER_EMAIL, SENDER_APP_PWD)
+    with smtplib.SMTP_SSL(SENDER_EMAIL_HOST, SENDER_EMAIL_PORT) as server:
+        server.login(SENDER_EMAIL_ADDRESS, SENDER_EMAIL_APP_PWD)
         for i, fp in enumerate(filepaths):
             time.sleep(random.uniform(2, 6))  # Random delay to avoid spam filters
             print(f"Sending email {i+1}/{len(filepaths)}...")
