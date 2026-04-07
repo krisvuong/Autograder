@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import datetime as dt
 import glob
+import json
 import os
 import pandas as pd
 from pathlib import Path
@@ -221,9 +222,9 @@ def release_grades(only_try_errors=False):
 
 def add_custom_feedback(input_html, student_file, mac_id):
 
-    custom_feedback = {
-        "macid": "feedback"
-    }
+    with open('custom_feedback.json', 'r') as file:
+        custom_feedback = json.load(file)
+
     if mac_id not in custom_feedback:
         return
     # Read the file
