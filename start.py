@@ -39,7 +39,7 @@ SENDER_EMAIL_HOST = config["email"]["host"]
 SENDER_EMAIL_APP_PWD = secrets["email"]["app_password"]
 
 ASSIGNMENT_NUM = config["assignment_num"]
-SUBMISSION_FOLDER = f"submissions/a{ASSIGNMENT_NUM}"
+SUBMISSION_FOLDER = f"input/submissions/a{ASSIGNMENT_NUM}"
 TEST_FILE = f"tests/TestA{ASSIGNMENT_NUM}.py"
 OUTPUT_FILE = f"output/a{ASSIGNMENT_NUM}_results.csv"
 ASSIGNMENT_NAME = f"Assignment {ASSIGNMENT_NUM}"  # Used as header for grade column in output file
