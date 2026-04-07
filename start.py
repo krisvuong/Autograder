@@ -23,10 +23,10 @@ from MarkCollector import MarkCollector
 with open("config.yaml", "r") as file:
     try:
         config = yaml.safe_load(file)
-    except yaml.YAMLError as exc:
-        print(f"Error parsing YAML: {exc}")
+    except yaml.YAMLError as e:
+        print(f"Error parsing config.yaml: {e}")
 
-ASSIGNMENT_NUM = "0"
+ASSIGNMENT_NUM = config["assignment_num"]
 SUBMISSION_FOLDER = f"submissions/a{ASSIGNMENT_NUM}"
 TEST_FILE = f"tests/TestA{ASSIGNMENT_NUM}.py"
 OUTPUT_FILE = f"output/a{ASSIGNMENT_NUM}_results.csv"
@@ -35,8 +35,8 @@ OUTPUT_FOLDER = f"a{ASSIGNMENT_NUM}"
 ERROR_FOLDER = f"output/{OUTPUT_FOLDER}_autograde_errors"
 LOW_MARK_FOLDER = f"output/{OUTPUT_FOLDER}_low_marks"
 
-SENDER_EMAIL = "xx"
-SENDER_APP_PWD = "xx"
+SENDER_EMAIL = config["email"]["address"]
+SENDER_APP_PWD = config["email"]["app_password"]
 
 def load_mapping(path="mapping.csv"):
     print(f"Reading mapping csv from {path}...")
